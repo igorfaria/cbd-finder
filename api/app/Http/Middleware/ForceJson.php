@@ -11,13 +11,11 @@ class ForceJson
      */
     public function handle(Request $request, Closure $next)
     {
-     /*    $request->headers->set('Accept', 'application/json; charset=utf-8');
-        
-       return $next($request); */
-       $data =  $next($request);
+        $request->headers->set('Accept', 'application/json; charset=utf-8');
+        $data =  $next($request);
        if($data instanceof JsonResponse) {
            $data->withHeaders(['Content-Type' => "application/json; charset=utf-8"]);
-           $data->setEncodingOptions(JSON_UNESCAPED_UNICODE);
+           $data->setEncodingOptions($data->getEncodingOptions() | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
        }
 
        return $data;

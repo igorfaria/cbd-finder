@@ -14,7 +14,14 @@ class StoreController extends Controller
      */
     public function index()
     {
-        //
+        $Response = [];
+        $Stores = Store::all();
+        foreach($Stores as $store){
+            $Response[$store->id] = array_merge($store->toArray(),[
+                'addresses' => $store->addresses(),
+            ]);
+        }
+        return $Response;
     }
 
     /**
